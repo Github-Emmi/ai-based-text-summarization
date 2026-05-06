@@ -1,0 +1,39 @@
+services:
+  - type: web
+    name: ai-text-summarization-api
+    env: docker
+    dockerfilePath: ./backend/docker/Dockerfile
+    dockerContext: ./backend
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: DEBUG
+        value: "false"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: summarize-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ALGORITHM
+        value: HS256
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: "30"
+      - key: REFRESH_TOKEN_EXPIRE_DAYS
+        value: "7"
+      - key: CORS_ORIGINS
+        value: "https://your-frontend-domain.com"
+      - key: RATE_LIMIT_PER_MINUTE
+        value: "30"
+      - key: LOG_LEVEL
+        value: INFO
+      - key: MAX_UPLOAD_SIZE_MB
+        value: "20"
+
+databases:
+  - name: summarize-db
+    plan: free
+    databaseName: summarize_db
+    user: summarize_user

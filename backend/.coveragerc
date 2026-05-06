@@ -1,0 +1,14 @@
+[run]
+source = app
+omit =
+    # SQLAlchemy ORM model declarations — no executable logic to test
+    app/db/models/*
+    # Logging setup — only runs at app startup
+    app/core/logging.py
+
+[report]
+exclude_lines =
+    pragma: no cover
+    if TYPE_CHECKING:
+    raise NotImplementedError
+    \.\.\.

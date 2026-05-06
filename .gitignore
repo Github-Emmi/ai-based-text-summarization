@@ -1,54 +1,62 @@
-# Python
+# ── Secrets & Environment ──────────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+backend/.env
+backend/.env.*
+!backend/.env.example
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
+
+# ── Python ─────────────────────────────────────────────────────────────────
 __pycache__/
 *.py[cod]
-*$py.class
+*.pyo
+*.pyd
 *.so
 *.egg
 *.egg-info/
 dist/
 build/
-.eggs/
-
-# Virtual environment
+*.whl
 venv/
 .venv/
-env/
-ENV/
-
-# Environment variables — NEVER commit .env
-.env
-.env.local
-.env.*.local
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# macOS
-.DS_Store
-.AppleDouble
-.LSOverride
-
-# pytest / coverage
+backend/venv/
+backend/.venv/
 .pytest_cache/
-.coverage
+.mypy_cache/
+.ruff_cache/
 htmlcov/
+.coverage
 coverage.xml
+*.cover
 
-# Compiled Python
-*.pyc
+# ── Node / Next.js ─────────────────────────────────────────────────────────
+node_modules/
+frontend/node_modules/
+.next/
+frontend/.next/
+frontend/out/
+frontend/dist/
+*.tsbuildinfo
+.turbo/
 
-# Docker
-docker-compose.override.yml
+# ── Jupyter ────────────────────────────────────────────────────────────────
+.ipynb_checkpoints/
+docs/.ipynb_checkpoints/
 
-# Logs
+# ── macOS ──────────────────────────────────────────────────────────────────
+.DS_Store
+**/.DS_Store
+
+# ── IDEs ──────────────────────────────────────────────────────────────────
+.vscode/settings.json
+.idea/
+
+# ── Docker ────────────────────────────────────────────────────────────────
+backend/docker/postgres-data/
+
+# ── Logs ──────────────────────────────────────────────────────────────────
 *.log
 logs/
-
-# Uploads (local dev)
-backend/uploads/
-
-# Jupyter
-.ipynb_checkpoints/

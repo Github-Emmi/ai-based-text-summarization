@@ -1,0 +1,43 @@
+# Python virtual environments
+venv/
+.venv/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# Build / dist
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Environment secrets — never bake them into the image
+.env
+.env.*
+!.env.example
+
+# Test artefacts
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Editor
+.idea/
+.vscode/
+*.swp
+
+# Alembic compiled caches (not needed inside container)
+# — keep alembic/versions/ but skip __pycache__
+alembic/__pycache__/
+alembic/versions/__pycache__/
+
+# Uploaded files — volume-mounted at runtime
+uploads/
+
+# Docker artifacts (avoid recursive COPY of .dockerignore itself)
+docker-compose*.yml
