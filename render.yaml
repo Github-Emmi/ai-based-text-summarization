@@ -12,9 +12,7 @@ services:
       - key: DEBUG
         value: "false"
       - key: DATABASE_URL
-        fromDatabase:
-          name: summarize-db
-          property: connectionString
+        sync: false  # Set manually in Render Dashboard → Environment
       - key: SECRET_KEY
         generateValue: true
       - key: ALGORITHM
@@ -32,8 +30,9 @@ services:
       - key: MAX_UPLOAD_SIZE_MB
         value: "20"
 
-databases:
-  - name: summarize-db
-    plan: free
-    databaseName: summarize_db
-    user: summarize_user
+# ── No new database created — set DATABASE_URL manually in Render Dashboard ──
+# databases:
+#   - name: summarize-db
+#     plan: free
+#     databaseName: summarize_db
+#     user: summarize_user
