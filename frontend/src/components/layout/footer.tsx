@@ -32,17 +32,19 @@ export function Footer() {
   const canvasRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    let p5Instance: import("p5") | null = null;
+    // Typed minimally — we only ever call .remove() on cleanup
+    let p5Instance: { remove: () => void } | null = null;
 
     async function init() {
       const P5 = (await import("p5")).default;
 
-      const sketch = (p: import("p5")) => {
+      const sketch = (p: InstanceType<typeof P5>) => {
         const LABEL = "Built by Emmi Dev";
         const BOUNCE_AMP = 6;       // px amplitude for letter bounce
         const BOUNCE_SPEED = 0.04;  // radians per frame
         const SPARKLE_RATE = 3;     // sparkles spawned per frame while animating
-        const FONT_SIZE = 14;
+        const FONT_SIZE = 18;
+        const WORD_GAP = 8;         // extra px between words
 
         let letters: Letter[] = [];
         let sparkles: Sparkle[] = [];
@@ -52,7 +54,14 @@ export function Footer() {
           letters = [];
           p.textSize(FONT_SIZE);
           p.textFont("monospace");
-          const totalW = p.textWidth(LABEL);
+          p.textStyle(p.BOLD);
+          // calculate total width including extra word gaps
+          let totalW = 0;
+          const chars = Array.from(LABEL);
+          for (let i = 0; i < chars.length; i++) {
+            totalW += p.textWidth(chars[i]);
+            if (chars[i] === " " && i < chars.length - 1) totalW += WORD_GAP;
+          }
           let cx = canvasW / 2 - totalW / 2;
           const cy = p.height / 2;
           for (const char of LABEL) {
@@ -68,6 +77,7 @@ export function Footer() {
               size: FONT_SIZE,
             });
             cx += cw;
+            if (char === " ") cx += WORD_GAP;
           }
         }
 
@@ -151,12 +161,13 @@ export function Footer() {
             p.noStroke();
             p.textSize(l.size);
             p.textFont("monospace");
+            p.textStyle(p.BOLD);
             p.text(l.char, l.x, l.y);
           }
         };
 
         function drawStar(
-          pg: import("p5"),
+          pg: InstanceType<typeof P5>,
           x: number,
           y: number,
           r1: number,

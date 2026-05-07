@@ -24,7 +24,7 @@ services:
       - key: REFRESH_TOKEN_EXPIRE_DAYS
         value: "7"
       - key: CORS_ORIGINS
-        value: "https://your-frontend-domain.com"
+        value: "https://your-vercel-app.vercel.app"  # ← replace with your actual Vercel URL after deploying frontend
       - key: RATE_LIMIT_PER_MINUTE
         value: "30"
       - key: LOG_LEVEL
