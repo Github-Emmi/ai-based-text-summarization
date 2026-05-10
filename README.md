@@ -1,6 +1,22 @@
 # AI-Based Text Summarization Platform
 
-A production-ready FastAPI backend for AI-powered text and PDF summarization using OpenAI GPT-4o-mini and HuggingFace Transformers.
+A production-ready, full-stack AI platform for text and PDF summarization — built with FastAPI, Next.js, PostgreSQL, and a dual-provider AI layer using OpenRouter (Llama 3.3 70B) and HuggingFace BART.
+
+## Author
+
+**Aghason Emmanuel Ibeabuchi**  
+GitHub: [github.com/Github-Emmi](https://github.com/Github-Emmi/)
+
+## Links
+
+| | URL |
+|---|---|
+| **GitHub Repository** | https://github.com/Github-Emmi/ai-based-text-summarization/tree/main |
+| **Frontend (Vercel)** | https://ai-based-text-summarization.vercel.app |
+| **Backend API (Render)** | https://ai-based-text-summarization-u4qa.onrender.com |
+| **Swagger UI** | https://ai-based-text-summarization-u4qa.onrender.com/docs |
+| **ReDoc** | https://ai-based-text-summarization-u4qa.onrender.com/redoc |
+
 
 ## Features
 
@@ -14,7 +30,61 @@ A production-ready FastAPI backend for AI-powered text and PDF summarization usi
 - Docker + Docker Compose for full local environment
 - Deployable to Render
 
-## Quick Start
+## API — Verified Endpoints
+
+All endpoints below were curl-tested against the live production backend.
+
+```bash
+BASE=https://ai-based-text-summarization-u4qa.onrender.com
+
+# Health check — no auth required
+curl $BASE/health
+# → {"status":"ok","environment":"production","version":"1.0.0"}
+
+# Database health — no auth required
+curl $BASE/health/db
+# → {"status":"ok","database":"connected","pool_size":2,"pool_free":2}
+
+# Register a new user
+curl -X POST $BASE/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"email":"you@example.com","password":"YourPass1!"}'
+# → HTTP 201 — user created
+
+# Login and receive tokens
+curl -X POST $BASE/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"you@example.com","password":"YourPass1!"}'
+# → {"access_token":"...","refresh_token":"...","token_type":"bearer"}
+
+# Summarize text (requires Bearer token)
+curl -X POST $BASE/api/v1/summarize/text \
+  -H "Authorization: Bearer <access_token>" \
+  -H "Content-Type: application/json" \
+  -d '{"text":"Your long text here...","format":"paragraph","length":"medium"}'
+
+# List past summaries
+curl $BASE/api/v1/history/summaries \
+  -H "Authorization: Bearer <access_token>"
+
+# Start or continue a chat session
+curl -X POST $BASE/api/v1/chat \
+  -H "Authorization: Bearer <access_token>" \
+  -H "Content-Type: application/json" \
+  -d '{"summary_id":"<uuid>","message":"What are the key points?"}'
+
+# Download summary as PDF
+curl $BASE/api/v1/export/<summary_id> \
+  -H "Authorization: Bearer <access_token>" \
+  --output summary.pdf
+
+# Refresh tokens
+curl -X POST $BASE/auth/refresh \
+  -H "Content-Type: application/json" \
+  -d '{"refresh_token":"<refresh_token>"}'
+```
+
+## Quick Start (Local Development)
 
 See [docs/02-environment-setup.md](docs/02-environment-setup.md) for detailed setup instructions.
 
